@@ -175,18 +175,6 @@ class _HomeState extends State<Home> {
                 ])
               ],
             ),
-            imagePath != null && imagePath!.isNotEmpty
-                ? Text(imagePath!)
-                : Text(''),
-            Expanded(
-              flex:1,
-              child: Column(
-                  children: multiImagePath.isNotEmpty
-                      ? multiImagePath.map((e) => Text(e)).toList()
-                      : [Text('')]),
-            ),
-                    SizedBox(height:50),
-           
             Expanded(
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
