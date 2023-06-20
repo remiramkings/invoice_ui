@@ -46,55 +46,64 @@ class _InvoiceState extends State<Invoice> {
             SizedBox(height: 5),
             Divider(color: Colors.grey),
             SizedBox(height: 5),
-            Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'QUOTATION # 28 / 2023',
-                  style:
-                      TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-                )),
-            SizedBox(height: 3),
-            Container(
-              padding: const EdgeInsets.all(10),
-              alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey, width: 1)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Date 19-06-2023'),
-                  Text('Quot Date 19-06-2023'),
-                  Text('Currency INR'),
-                  Text('PO # NA')
-                ],
-              ),
+            Row(
+              children: [
+                Expanded(
+                    flex: 1,
+                    child: Text(
+                      'QUOTATION # 28 / 2023',
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold),
+                    )),
+                Expanded(
+                    flex: 1,
+                    child: Text(
+                      'TO',
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold),
+                    ))
+              ],
             ),
-            SizedBox(height: 5),
-            Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'TO',
-                  style:
-                      TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-                )),
-            SizedBox(height: 3),
-            Container(
-              padding: const EdgeInsets.all(10),
-              alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey, width: 1)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'ABHILASH CHILAMBIL',
-                    style: TextStyle(fontSize: 15),
+            Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey, width: 1)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Date 19-06-2023'),
+                        Text('Quot Date 19-06-2023'),
+                        Text('Currency INR'),
+                        Text('PO # NA'),
+                        Text(' ')
+                      ],
+                    ),
                   ),
-                  Text('9846229357', style: TextStyle(fontSize: 15)),
-                  Text('thekkadi'),
-                  Text('abhilashchilambil@gmail.com')
-                ],
-              ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey, width: 1)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('ABHILASH CHILAMBIL'),
+                        Text('9846229357'),
+                        Text('thekkadi'),
+                        Text('abhilashchilambil@gmail.com')
+                      ],
+                    ),
+                  ),
+                )
+              ],
             ),
             SizedBox(height: 10),
             Container(
@@ -103,15 +112,20 @@ class _InvoiceState extends State<Invoice> {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Container(
-                width: 1200,
+                width: 600,
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey, width: 1)),
                 child: Table(
                   border: TableBorder.all(color: Colors.grey),
                   columnWidths: <int, TableColumnWidth>{
-                    0: IntrinsicColumnWidth(flex: 2),
+                    0: IntrinsicColumnWidth(flex: 4),
                     1: IntrinsicColumnWidth(flex: 1),
-                    2: IntrinsicColumnWidth(flex: 2),
+                    2: IntrinsicColumnWidth(flex: 3),
+                    3: IntrinsicColumnWidth(flex: 1),
+                    4: IntrinsicColumnWidth(flex: 1),
+                    5: IntrinsicColumnWidth(flex: 1),
+                    6: IntrinsicColumnWidth(flex: 2),
+                    7: IntrinsicColumnWidth(flex: 2),
                   },
                   children: [
                     TableRow(children: [
@@ -120,7 +134,7 @@ class _InvoiceState extends State<Invoice> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('ITEMS',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
+                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
                         ),
                       ),
                       TableCell(
@@ -128,7 +142,7 @@ class _InvoiceState extends State<Invoice> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('QTY/SQFT',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
+                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
                         ),
                       ),
                       TableCell(
@@ -136,7 +150,7 @@ class _InvoiceState extends State<Invoice> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('IMAGE',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
+                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
                         ),
                       ),
                       TableCell(
@@ -144,7 +158,7 @@ class _InvoiceState extends State<Invoice> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('QTY',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
+                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
                         ),
                       ),
                       TableCell(
@@ -152,7 +166,7 @@ class _InvoiceState extends State<Invoice> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('MRP/SQFT',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
+                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
                         ),
                       ),
                       TableCell(
@@ -160,7 +174,7 @@ class _InvoiceState extends State<Invoice> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('NET/SQFT',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
+                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
                         ),
                       ),
                       TableCell(
@@ -168,7 +182,7 @@ class _InvoiceState extends State<Invoice> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('MRP TOTAL',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
+                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
                         ),
                       ),
                       TableCell(
@@ -176,7 +190,7 @@ class _InvoiceState extends State<Invoice> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('NET TOTAL',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
+                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
                         ),
                       )
                     ]),
@@ -408,7 +422,8 @@ class _InvoiceState extends State<Invoice> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                   children: [
                     TextSpan(
-                      text: 'Client to maintain the confidentiality of usage terms and commercials on a best effort basis',
+                      text:
+                          'Client to maintain the confidentiality of usage terms and commercials on a best effort basis',
                       style: TextStyle(fontWeight: FontWeight.normal),
                     )
                   ])),
@@ -416,17 +431,14 @@ class _InvoiceState extends State<Invoice> {
             SizedBox(height: 30),
             Row(
               children: [
+                Expanded(flex: 1, child: Text('19-06-2023')),
                 Expanded(
-                  flex: 1,
-                  child: Text('19-06-2023')
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 18 ),
-                    child: Text('Authorized Signature', textAlign: TextAlign.right),
-                  )
-                )
+                    flex: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 18),
+                      child: Text('Authorized Signature',
+                          textAlign: TextAlign.right),
+                    ))
               ],
             )
           ]),
