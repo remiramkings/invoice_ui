@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
+import 'package:ui_project/service/product_service.dart';
+
+import 'model/product.dart';
+
 enum PageSize { A4, A5 }
 
 class Home extends StatefulWidget {
@@ -18,6 +22,7 @@ class _HomeState extends State<Home> {
   List<XFile>? imageFileList = [];
   String? imagePath;
   List<String> multiImagePath = [];
+  List<ProductModel> productList = [];
 
   onChangeImage() async {
     ImagePicker imagePicker = ImagePicker();
@@ -34,7 +39,89 @@ class _HomeState extends State<Home> {
       imageFileList!.addAll(selectedImages);
       multiImagePath = selectedImages.map((e) => e.path).toList();
     }
+
+   
     setState(() {});
+  }
+
+   loadProducts() async {
+     var pl = await ProductService.getInstance().getProductData();
+     setState((){
+      productList = pl;
+     });
+
+     print(pl);
+   }
+
+   initState() {
+    loadProducts();
+   }
+
+   drawItem(ProductModel product){
+    return Row(
+            children: [
+              Expanded(
+                  flex: 4,
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 25,
+                        height: 25,
+                        child: Image.network(
+                            'https://picsum.photos/300/300'),
+                      ),
+                      SizedBox(width: 10),
+                      Flexible(
+                        child: Text(product.productName),
+                      )
+                    ],
+                  )),
+              Expanded(
+                  flex: 1,
+                  child: Text(product.quantity,
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold))),
+              Expanded(
+                  flex: 1,
+                  child: Text(product.mrp,
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold))),
+              Expanded(
+                  flex: 1,
+                  child: Text(product.mrpTotal,
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold))),
+              Expanded(
+                  flex: 1,
+                  child: Text(product.taxAmount,
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold))),
+              Expanded(
+                  flex: 1,
+                  child: Text(product.mrpTotal,
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold))),
+            ],
+          );
+   }
+
+  List<Widget> drawInvoiceItems(){
+    return productList
+      .map((product){
+        return Column(
+          children: [
+            drawItem(product),
+            SizedBox(width: 5),
+            Divider(color: Colors.grey),
+            SizedBox(width: 5),
+          ],
+        );
+      }).toList();
   }
 
   @override
@@ -371,112 +458,11 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         SizedBox(height: 5),
-                        Row(
-                          children: [
-                            Expanded(
-                                flex: 4,
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 25,
-                                      height: 25,
-                                      child: Image.network(
-                                          'https://picsum.photos/300/300'),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Flexible(
-                                      child: Text('BUCKET & BUCKET PLATE'),
-                                    )
-                                  ],
-                                )),
-                            Expanded(
-                                flex: 1,
-                                child: Text('1',
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
-                            Expanded(
-                                flex: 1,
-                                child: Text('2500.00',
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
-                            Expanded(
-                                flex: 1,
-                                child: Text('2500.00',
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
-                            Expanded(
-                                flex: 1,
-                                child: Text('0.00',
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
-                            Expanded(
-                                flex: 1,
-                                child: Text('5000.00',
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        Divider(color: Colors.grey),
-                        SizedBox(height: 5),
-                        Row(
-                          children: [
-                            Expanded(
-                                flex: 4,
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 25,
-                                      height: 25,
-                                      child: Image.network(
-                                          'https://picsum.photos/300/300'),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Text('',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold))
-                                  ],
-                                )),
-                            Expanded(
-                                flex: 1,
-                                child: Text('0',
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
-                            Expanded(
-                                flex: 1,
-                                child: Text('0.00',
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
-                            Expanded(
-                                flex: 1,
-                                child: Text('0.00',
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
-                            Expanded(
-                                flex: 1,
-                                child: Text('0.00',
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
-                            Expanded(
-                                flex: 1,
-                                child: Text('0.00',
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        Divider(color: Colors.grey),
-                        SizedBox(height: 20),
+                        
+                        (productList == null || productList.isEmpty) ? Text(''):
+                      Column(
+                        children: drawInvoiceItems(),
+                      ),
                         Row(
                           children: [
                             Expanded(
