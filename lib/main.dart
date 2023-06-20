@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ui_project/invoice.dart';
+import 'package:ui_project/quotation3.dart';
 
 import 'home.dart';
 
@@ -15,6 +16,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(title: 'Flutter Demo', theme: ThemeData(
       primarySwatch: Colors.blue
-    ), home: Invoice());
+    ), home: Quotation3());
   }
 }
