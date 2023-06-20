@@ -16,30 +16,33 @@ class _InvoiceState extends State<Invoice> {
         child: Container(
           padding: EdgeInsets.all(16),
           child: Column(children: [
-            Column(
+            const SizedBox(height: 25),
+            Row(
               children: [
                 SizedBox(
                   height: 100,
                   width: 100,
                   child: Image.asset('assets/images/abc_mercantile_logo.png'),
                 ),
-                const SizedBox(height: 15),
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('ABC MERCANTILE GROUP INDIA PVT LTD.',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
-                    Text('PPXII 130A-130B, Corporate House, Kuppam P.O.,',
-                        style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold)),
-                    Text('Taliparamba, Kannur, Kerala-670 502',
-                        style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold)),
-                    Text('info@abcmercantile.com',
-                        style: TextStyle(
-                            fontSize: 13, fontWeight: FontWeight.bold)),
-                  ],
+                const SizedBox(width: 15),
+                Expanded(
+                  child: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('ABC MERCANTILE GROUP INDIA PVT LTD.',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
+                      Text('PPXII 130A-130B, Corporate House, Kuppam P.O.,',
+                          style: TextStyle(
+                              fontSize: 13, fontWeight: FontWeight.bold)),
+                      Text('Taliparamba, Kannur, Kerala-670 502',
+                          style: TextStyle(
+                              fontSize: 13, fontWeight: FontWeight.bold)),
+                      Text('info@abcmercantile.com',
+                          style: TextStyle(
+                              fontSize: 11, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -134,7 +137,8 @@ class _InvoiceState extends State<Invoice> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('ITEMS',
-                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                              style: TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.bold)),
                         ),
                       ),
                       TableCell(
@@ -142,7 +146,8 @@ class _InvoiceState extends State<Invoice> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('QTY/SQFT',
-                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                              style: TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.bold)),
                         ),
                       ),
                       TableCell(
@@ -150,7 +155,8 @@ class _InvoiceState extends State<Invoice> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('IMAGE',
-                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                              style: TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.bold)),
                         ),
                       ),
                       TableCell(
@@ -158,7 +164,8 @@ class _InvoiceState extends State<Invoice> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('QTY',
-                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                              style: TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.bold)),
                         ),
                       ),
                       TableCell(
@@ -166,7 +173,8 @@ class _InvoiceState extends State<Invoice> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('MRP/SQFT',
-                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                              style: TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.bold)),
                         ),
                       ),
                       TableCell(
@@ -174,7 +182,8 @@ class _InvoiceState extends State<Invoice> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('NET/SQFT',
-                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                              style: TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.bold)),
                         ),
                       ),
                       TableCell(
@@ -182,7 +191,8 @@ class _InvoiceState extends State<Invoice> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('MRP TOTAL',
-                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                              style: TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.bold)),
                         ),
                       ),
                       TableCell(
@@ -190,7 +200,8 @@ class _InvoiceState extends State<Invoice> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('NET TOTAL',
-                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                              style: TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.bold)),
                         ),
                       )
                     ]),
