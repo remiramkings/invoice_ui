@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ui_project/service/product_service.dart';
+import 'package:ui_project/utils/date_utility.dart';
+import 'model/enquiry_model.dart';
+import 'model/product.dart';
 
 class Invoice extends StatefulWidget {
   const Invoice({super.key});
@@ -8,6 +12,95 @@ class Invoice extends StatefulWidget {
 }
 
 class _InvoiceState extends State<Invoice> {
+  List<ProductModel> productList = [];
+  EnquiryModel? enquiry;
+  late String createdDate;
+
+  loadProducts() async {
+    var map = await ProductService.getInstance().getEnquiryData();
+    setState(() {
+      productList = map['products'];
+      enquiry = map['enquiry'];
+    });
+  }
+
+  initState() {
+    loadProducts();
+  }
+
+  TableRow drawItem(ProductModel product) {
+    return TableRow(children: [
+      TableCell(
+        verticalAlignment: TableCellVerticalAlignment.middle,
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(product.productName),
+        ),
+      ),
+      TableCell(
+        verticalAlignment: TableCellVerticalAlignment.middle,
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(product.quantity),
+        ),
+      ),
+      TableCell(
+        verticalAlignment: TableCellVerticalAlignment.middle,
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: SizedBox(
+            width: 50,
+            height: 50,
+            child: Image.network('https://picsum.photos/300/300'),
+          ),
+        ),
+      ),
+      TableCell(
+        verticalAlignment: TableCellVerticalAlignment.middle,
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(product.quantity),
+        ),
+      ),
+      TableCell(
+        verticalAlignment: TableCellVerticalAlignment.middle,
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(product.netPerSqft),
+        ),
+      ),
+      TableCell(
+        verticalAlignment: TableCellVerticalAlignment.middle,
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(product.netPerSqft),
+        ),
+      ),
+      TableCell(
+        verticalAlignment: TableCellVerticalAlignment.middle,
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(product.mrpTotal),
+        ),
+      ),
+      TableCell(
+        verticalAlignment: TableCellVerticalAlignment.middle,
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(product.taxAmount),
+        ),
+      )
+    ]);
+  }
+
+  List<TableRow> drawItems() {
+    return productList.isEmpty
+        ? []
+        : productList.map((product) {
+            return drawItem(product);
+          }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,11 +172,13 @@ class _InvoiceState extends State<Invoice> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Date 19-06-2023'),
-                        Text('Quot Date 19-06-2023'),
+                        Text(
+                            'Date ${enquiry == null ? '' : DateUtility.getFormattedDate(enquiry!.createdDate)}'),
+                        Text(
+                            'Quot Date ${enquiry == null ? '' : DateUtility.getFormattedDate(enquiry!.createdDate)}'),
                         Text('Currency INR'),
                         Text('PO # NA'),
-                        Text(' ')
+                        Text('')
                       ],
                     ),
                   ),
@@ -98,10 +193,10 @@ class _InvoiceState extends State<Invoice> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('ABHILASH CHILAMBIL'),
-                        Text('9846229357'),
-                        Text('thekkadi'),
-                        Text('abhilashchilambil@gmail.com')
+                        Text(enquiry == null ? '' : enquiry!.clientName),
+                        Text(enquiry == null ? '' : enquiry!.mobileNumber),
+                        Text(enquiry == null ? '' : enquiry!.clientLocation),
+                        Text(enquiry == null ? '' : enquiry!.clientEmail),
                       ],
                     ),
                   ),
@@ -205,132 +300,7 @@ class _InvoiceState extends State<Invoice> {
                         ),
                       )
                     ]),
-                    TableRow(children: [
-                      TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('AUGER'),
-                        ),
-                      ),
-                      TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(''),
-                        ),
-                      ),
-                      TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: 50,
-                            height: 50,
-                            child:
-                                Image.network('https://picsum.photos/300/300'),
-                          ),
-                        ),
-                      ),
-                      TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('10'),
-                        ),
-                      ),
-                      TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('0'),
-                        ),
-                      ),
-                      TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('2000'),
-                        ),
-                      ),
-                      TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('400000'),
-                        ),
-                      ),
-                      TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('4200000'),
-                        ),
-                      )
-                    ]),
-                    TableRow(children: [
-                      TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('BUCKET & BUCKET PLATE'),
-                        ),
-                      ),
-                      TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('250'),
-                        ),
-                      ),
-                      TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: 50,
-                            height: 50,
-                            child:
-                                Image.network('https://picsum.photos/300/300'),
-                          ),
-                        ),
-                      ),
-                      TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('1'),
-                        ),
-                      ),
-                      TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('2500'),
-                        ),
-                      ),
-                      TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('250'),
-                        ),
-                      ),
-                      TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('625000'),
-                        ),
-                      ),
-                      TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('656250'),
-                        ),
-                      )
-                    ])
+                    ...drawItems()
                   ],
                 ),
               ),
@@ -343,7 +313,8 @@ class _InvoiceState extends State<Invoice> {
                     child: Text('Total Amount', textAlign: TextAlign.right)),
                 Expanded(
                     flex: 1,
-                    child: Text('4856250', textAlign: TextAlign.right)),
+                    child: Text(enquiry == null ? ' ' : enquiry!.total,
+                        textAlign: TextAlign.right)),
                 SizedBox(width: 10)
               ],
             ),
@@ -353,7 +324,10 @@ class _InvoiceState extends State<Invoice> {
                 Expanded(
                     flex: 1,
                     child: Text('Discount', textAlign: TextAlign.right)),
-                Expanded(flex: 1, child: Text('0', textAlign: TextAlign.right)),
+                Expanded(
+                    flex: 1,
+                    child: Text(enquiry == null ? '' : enquiry!.discount,
+                        textAlign: TextAlign.right)),
                 SizedBox(width: 10)
               ],
             ),
@@ -363,7 +337,10 @@ class _InvoiceState extends State<Invoice> {
                 Expanded(
                     flex: 1,
                     child: Text('Round Off', textAlign: TextAlign.right)),
-                Expanded(flex: 1, child: Text('0', textAlign: TextAlign.right)),
+                Expanded(
+                    flex: 1,
+                    child: Text(enquiry == null ? '' : enquiry!.roundOf,
+                        textAlign: TextAlign.right)),
                 SizedBox(width: 10)
               ],
             ),
@@ -375,7 +352,8 @@ class _InvoiceState extends State<Invoice> {
                     child: Text('Grand Total', textAlign: TextAlign.right)),
                 Expanded(
                     flex: 1,
-                    child: Text('4856250', textAlign: TextAlign.right)),
+                    child: Text(enquiry == null ? '' : enquiry!.grandTotal,
+                        textAlign: TextAlign.right)),
                 SizedBox(width: 10)
               ],
             ),
@@ -442,7 +420,11 @@ class _InvoiceState extends State<Invoice> {
             SizedBox(height: 30),
             Row(
               children: [
-                Expanded(flex: 1, child: Text('19-06-2023')),
+                Expanded(
+                    flex: 1,
+                    child: Text(enquiry == null
+                        ? ''
+                        : DateUtility.getFormattedDate(enquiry!.createdDate))),
                 Expanded(
                     flex: 1,
                     child: Padding(
