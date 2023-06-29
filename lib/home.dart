@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
-
 import 'package:ui_project/service/product_service.dart';
+import 'package:ui_project/service/file_picker_service.dart';
 
+import 'file_popup.dart';
 import 'model/product.dart';
 
 enum PageSize { A4, A5 }
@@ -17,6 +17,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   PageSize? selectedPageSize = PageSize.A4;
+
+  FilePickerService _filePickerService = FilePickerService.getInstance();
 
   XFile? galleryImage;
   List<XFile>? imageFileList = [];
@@ -42,6 +44,27 @@ class _HomeState extends State<Home> {
 
    
     setState(() {});
+  }
+
+  void selectDocument() async {
+    // check for any doc files in the service
+    if(
+      !_filePickerService.hasAnyFilesCached()
+      && !await _filePickerService.selectFiles()
+      ) {
+        return;
+    }
+
+    openFileViewerPopup();
+  }
+
+  openFileViewerPopup(){
+    showDialog(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            AlertDialog(content: FilePopUp()
+                        ),
+                      );
   }
 
    loadProducts() async {
@@ -142,7 +165,12 @@ class _HomeState extends State<Home> {
             InkWell(
               child: Icon(Icons.image),
               onTap: selectImages,
-            )
+            ),
+            SizedBox(width: 10),
+            InkWell(
+              child: Icon(Icons.attach_file),
+              onTap: selectDocument,
+            ),
           ],
         )),
         body: Container(
