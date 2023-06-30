@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:ui_project/model/file_object.dart';
 import 'package:ui_project/service/file_picker_service.dart';
 
+import 'file_preview_popup.dart';
+
 class FilePopUp extends StatefulWidget {
   const FilePopUp({super.key});
 
@@ -16,19 +18,29 @@ class _FilePopUpState extends State<FilePopUp> {
 
   fileItem(FileObject file){
     bool isImage = ['jpg', 'jpeg', 'gif', 'png'].contains(file['extension']);
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            flex: 1,
-            child: isImage ? Image.file(File(file['path'] ?? '')):
-        Image.asset('assets/images/${getAssetByExtension(file['extension'] ?? '')}.png'),
-          ),
-          SizedBox(height: 5,),
-        Text(file['name'] ?? '', style: TextStyle(fontSize: 13), maxLines: 2, textAlign: TextAlign.center,)
-        ],
-      )
+    return InkWell(
+      child: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              flex: 1,
+              child: isImage ? Image.file(File(file['path'] ?? '')):
+          Image.asset('assets/images/${getAssetByExtension(file['extension'] ?? '')}.png'),
+            ),
+            SizedBox(height: 5,),
+          Text(file['name'] ?? '', style: TextStyle(fontSize: 13), maxLines: 2, textAlign: TextAlign.center,)
+          ],
+        )
+      ),
+      onTap: (){
+        showDialog(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            AlertDialog(content: FilePreviewPopUp(fileObject: file)
+                        ),
+                      );
+      },
     );
   }
 

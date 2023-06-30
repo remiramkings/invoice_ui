@@ -152,7 +152,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
         appBar: AppBar(
             title: Row(
-          children: [
+          children: [ 
             Expanded(
               flex: 1,
               child: Text(''),
@@ -167,7 +167,7 @@ class _HomeState extends State<Home> {
               onTap: selectImages,
             ),
             SizedBox(width: 10),
-            InkWell(
+            InkWell(  
               child: Icon(Icons.attach_file),
               onTap: selectDocument,
             ),
