@@ -18,9 +18,9 @@ class FilePickerService {
     return filesCached.isNotEmpty;
   }
 
-  Future<bool> selectFiles() async {
+  Future<bool> selectFiles({bool multiple = true}) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      allowMultiple: true,
+      allowMultiple: multiple,
       type: FileType.custom,
       allowedExtensions: FileExtensions.keys.toList(),
       
@@ -29,11 +29,17 @@ class FilePickerService {
     if(result == null || result.files.isEmpty){
       return false;
     }
+
+    if(!multiple){
+      clearCached();
+    }
+
     result.files
       .forEach((file) => (!isPathExists(file.path)) ? filesCached.add({
         'name': file.name,
         'path': file.path ?? '',
         'extension': file.extension ?? '',
+        'size': '${file.size}'
         }): null
       );
       
