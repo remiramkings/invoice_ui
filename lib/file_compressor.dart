@@ -17,40 +17,12 @@ class _FileCompressorState extends State<FileCompressor> {
   FileObject? file;
   Future<MediaInfo?>? videoInfoFuture;
   Future<XFile?>? imageInfoFuture;
-  int compressedImageFIleLength = 0;
-  showImage(){
+  int compressedFIleLength = 0;
+  showImage() {
     return Column(
       children: [
-        SizedBox(
-          height: 250,
-          child: Image.file(File(file!['path'] ?? ''))),
-
-          Text('Size: ${((int.parse(file!['size'] ?? '')/1024)).round()} Kb'),
-        ElevatedButton(onPressed: (){
-          setState(() {
-            imageInfoFuture = MediaCompressService.imageCompressAndGetFile(File(file!['path'] ?? ''));
-          });
-        }, child: Text('Compress image')),
-          FutureBuilder<XFile?>(
-            future: imageInfoFuture,
-            builder: (context, snapshot) {
-              if(snapshot.connectionState == ConnectionState.waiting){
-                return CircularProgressIndicator.adaptive();
-              }
-              if(snapshot.data!=null){
-                getCompressedImageLength(snapshot.data!);
-              }
-              return snapshot.data != null ? 
-                Column(
-                  children: [
-                    Text('Compression finished, compressed to ${((compressedImageFIleLength)/1024).round()} Kb'),
-                    SizedBox(height: 250,
-                    child: Image.file(File(snapshot.data!.path)),)
-                  ],
-                )
-                : Text('Not done');
-            },
-          )
+        SizedBox(height: 250, child: Image.file(File(file!['path'] ?? ''))),
+        Text('Size: ${((int.parse(file!['size'] ?? '') / 1024)).round()} Kb'),
       ],
     );
   }
@@ -58,66 +30,140 @@ class _FileCompressorState extends State<FileCompressor> {
   getCompressedImageLength(XFile file) async {
     int len = await file.length();
     setState(() {
-      compressedImageFIleLength = len;
+      compressedFIleLength = len;
     });
   }
 
-  showVideo(){
+  showVideo() {
     return Column(
       children: [
         Image.asset('assets/images/video.png'),
-        Text('Size: ${((int.parse(file!['size'] ?? '')/1024)).round()} Kb'),
-         ElevatedButton(onPressed: ()  {
-            setState((){
-              videoInfoFuture = MediaCompressService.compressVideo(file!['path'] ?? '', VideoQuality.LowQuality);
-            });
-         }, child: Text('Compress video')),
-          FutureBuilder<MediaInfo?>(
-            future: videoInfoFuture,
-            builder: (context, snapshot) {
-              if(snapshot.connectionState == ConnectionState.waiting){
-                return CircularProgressIndicator.adaptive();
-              }
-              return snapshot.data!=null ? Text('Compression finished, compressed to ${((snapshot.data!.filesize ?? 0)/1024).round()} Kb'): Text('Not done');
-            },
-          )
+        Text('Size: ${((int.parse(file!['size'] ?? '') / 1024)).round()} Kb')
       ],
     );
   }
 
-  showMedia() {
-    switch(FileExtensions[file!['extension']]){
-      case 'video':
-        return showVideo();
-      case 'image':
-        return showImage();
-      default:
-        return Text('${file!['extension']} is not a media');
-    }
+  String getExtension(){
+    return (file != null) ? FileExtensions[file!['extension']] ?? '' : '';
   }
- 
+
+  isVideo() {
+    return (getExtension()) == 'video';
+  }
+
+  showMedia() {
+    Widget mediaWidget = Text('');
+    if (isVideo()) {
+      mediaWidget = showVideo();
+    } else {
+      mediaWidget = showImage();
+    }
+
+    return Column(
+      children: [
+        mediaWidget,
+        ElevatedButton(
+            onPressed: () {
+              if (isVideo()) {
+                setState(() {
+                  videoInfoFuture = MediaCompressService.compressVideo(
+                      file!['path'] ?? '', VideoQuality.LowQuality);
+                });
+              } else {
+                setState(() {
+                  imageInfoFuture =
+                      MediaCompressService.imageCompressAndGetFile(
+                          File(file!['path'] ?? ''));
+                });
+              }
+            },
+            child: Text('Compress ${getExtension()}'))
+      ],
+    );
+  }
+
+  showResult() {
+    return Column(
+      children: [
+        !isVideo() ? FutureBuilder<XFile?>(
+          future: imageInfoFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator.adaptive();
+            }
+            if (snapshot.data != null) {
+              getCompressedImageLength(snapshot.data!);
+            }
+            return snapshot.data != null
+                ? Column(
+                    children: [
+                      Text(
+                          'Compression finished, compressed to ${((compressedFIleLength) / 1024).round()} Kb'),
+                      SizedBox(
+                        height: 250,
+                        child: Image.file(File(snapshot.data!.path))
+                      )
+                    ],
+                  )
+                : const Text('');
+          },
+        ):
+        FutureBuilder<MediaInfo?>(
+          future: videoInfoFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator.adaptive();
+            }
+            if (snapshot.data != null) {
+              compressedFIleLength = snapshot.data!.filesize ?? 0;
+            }
+            return snapshot.data != null
+                ? Column(
+                    children: [
+                      Text(
+                          'Compression finished, compressed to ${((compressedFIleLength) / 1024).round()} Kb'),
+                    ],
+                  )
+                : const Text('');
+          },
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('File compressor'),
+        title: const Text('File compressor'),
       ),
       body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                ElevatedButton(onPressed: ()async{
-                  if(await FilePickerService.getInstance().selectFiles(multiple: false)==true){
-                      setState(() {
-                        file = FilePickerService.getInstance().getCachedFiles().first;
-                      });
-                  };                 
-                }, child: Text('Select Image / Video')),
-                file != null ?  showMedia()
-                  : Text(''),
-                  
+                Flexible(
+                  child: ElevatedButton(
+                      onPressed: () async {
+                        if (await FilePickerService.getInstance()
+                                .selectFiles(multiple: false) ==
+                            true) {
+                          setState(() {
+                            file = FilePickerService.getInstance()
+                                .getCachedFiles()
+                                .first;
+                            videoInfoFuture = imageInfoFuture = null;
+                          });
+                        }
+                        ;
+                      },
+                      child: const Text('Select Image / Video')),
+                ),
+                file != null ? showMedia() : const Text(''),
+                file != null ? showResult() : const Text('')
               ],
             ),
           ),
