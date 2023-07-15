@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:ui_project/custom_audio_player.dart';
 import 'model/file_object.dart';
 import 'package:video_player/video_player.dart';
 
@@ -47,9 +48,15 @@ class _FilePreviewPopUpState extends State<FilePreviewPopUp> {
         return showImageMedia();
       case 'video':
         return showVideoMedia();
+      case 'audio':
+        return showPlayAudioMedia();
       default: 
         return const Text('Media not support');
     }
+  }
+
+  Widget showPlayAudioMedia() {
+    return CustomAudioPlayer(filePath: widget.fileObject['path'] ?? '',);
   }
 
   Image showImageMedia(){
@@ -105,10 +112,14 @@ class _FilePreviewPopUpState extends State<FilePreviewPopUp> {
    
   }
 
+  bool isAudio(){
+    return getMediaType(widget.fileObject['extension'] ?? "") == "audio";
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 350,
+      height: isAudio()?190:350,
       child: showMedia(),
     );
   }
@@ -116,6 +127,8 @@ class _FilePreviewPopUpState extends State<FilePreviewPopUp> {
   @override
   void dispose() {
     super.dispose();
-    _videoPlayerController!.dispose();
+    if(_videoPlayerController != null){
+      _videoPlayerController!.dispose();
+    }
   }
 }

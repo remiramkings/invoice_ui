@@ -17,5 +17,13 @@ const FileExtensions = {
   'tiff': 'image',
   'ppt' : 'ppt',
   'pptx' : 'ppt',
-  'mov' : 'video'
-};
+  'mov' : 'video',
+  'm4a' : 'audio',
+  'flac' : 'audio',
+  'mp3' : 'audio',
+  'wav' : 'audio',
+  'wma' : 'audio',
+  'aac' : 'audio',
+  'opus' : 'audio',
+  'ogg' : 'audio'
+};      

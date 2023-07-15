@@ -42,109 +42,97 @@ class _HomeState extends State<Home> {
       multiImagePath = selectedImages.map((e) => e.path).toList();
     }
 
-   
     setState(() {});
   }
 
   void selectDocument() async {
     // check for any doc files in the service
-    if(
-      !_filePickerService.hasAnyFilesCached()
-      && !await _filePickerService.selectFiles()
-      ) {
-        return;
+    if (!_filePickerService.hasAnyFilesCached() &&
+        !await _filePickerService.selectFiles()) {
+      return;
     }
 
     openFileViewerPopup();
   }
 
-  openFileViewerPopup(){
+  openFileViewerPopup() {
     showDialog(
-                        context: context,
-                        builder: (BuildContext context) =>
-                            AlertDialog(content: FilePopUp()
-                        ),
-                      );
+      context: context,
+      builder: (BuildContext context) => AlertDialog(content: FilePopUp()),
+    );
   }
 
-   loadProducts() async {
-     var pl = await ProductService.getInstance().getProductData();
-     setState((){
+  loadProducts() async {
+    var pl = await ProductService.getInstance().getProductData();
+    setState(() {
       productList = pl;
-     });
+    });
 
-     print(pl);
-   }
+    print(pl);
+  }
 
-   initState() {
+  initState() {
     loadProducts();
-   }
+  }
 
-   drawItem(ProductModel product){
+  drawItem(ProductModel product) {
     return Row(
-            children: [
-              Expanded(
-                  flex: 4,
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 25,
-                        height: 25,
-                        child: Image.network(
-                            'https://picsum.photos/300/300'),
-                      ),
-                      SizedBox(width: 10),
-                      Flexible(
-                        child: Text(product.productName),
-                      )
-                    ],
-                  )),
-              Expanded(
-                  flex: 1,
-                  child: Text(product.quantity,
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold))),
-              Expanded(
-                  flex: 1,
-                  child: Text(product.mrp,
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold))),
-              Expanded(
-                  flex: 1,
-                  child: Text(product.mrpTotal,
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold))),
-              Expanded(
-                  flex: 1,
-                  child: Text(product.taxAmount,
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold))),
-              Expanded(
-                  flex: 1,
-                  child: Text(product.mrpTotal,
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold))),
-            ],
-          );
-   }
+      children: [
+        Expanded(
+            flex: 4,
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 25,
+                  height: 25,
+                  child: Image.network('https://picsum.photos/300/300'),
+                ),
+                SizedBox(width: 10),
+                Flexible(
+                  child: Text(product.productName),
+                )
+              ],
+            )),
+        Expanded(
+            flex: 1,
+            child: Text(product.quantity,
+                textAlign: TextAlign.right,
+                style: TextStyle(fontWeight: FontWeight.bold))),
+        Expanded(
+            flex: 1,
+            child: Text(product.mrp,
+                textAlign: TextAlign.right,
+                style: TextStyle(fontWeight: FontWeight.bold))),
+        Expanded(
+            flex: 1,
+            child: Text(product.mrpTotal,
+                textAlign: TextAlign.right,
+                style: TextStyle(fontWeight: FontWeight.bold))),
+        Expanded(
+            flex: 1,
+            child: Text(product.taxAmount,
+                textAlign: TextAlign.right,
+                style: TextStyle(fontWeight: FontWeight.bold))),
+        Expanded(
+            flex: 1,
+            child: Text(product.mrpTotal,
+                textAlign: TextAlign.right,
+                style: TextStyle(fontWeight: FontWeight.bold))),
+      ],
+    );
+  }
 
-  List<Widget> drawInvoiceItems(){
-    return productList
-      .map((product){
-        return Column(
-          children: [
-            drawItem(product),
-            SizedBox(width: 5),
-            Divider(color: Colors.grey),
-            SizedBox(width: 5),
-          ],
-        );
-      }).toList();
+  List<Widget> drawInvoiceItems() {
+    return productList.map((product) {
+      return Column(
+        children: [
+          drawItem(product),
+          SizedBox(width: 5),
+          Divider(color: Colors.grey),
+          SizedBox(width: 5),
+        ],
+      );
+    }).toList();
   }
 
   @override
@@ -152,7 +140,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
         appBar: AppBar(
             title: Row(
-          children: [ 
+          children: [
             Expanded(
               flex: 1,
               child: Text(''),
@@ -167,7 +155,7 @@ class _HomeState extends State<Home> {
               onTap: selectImages,
             ),
             SizedBox(width: 10),
-            InkWell(  
+            InkWell(
               child: Icon(Icons.attach_file),
               onTap: selectDocument,
             ),
@@ -486,11 +474,11 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         SizedBox(height: 5),
-                        
-                        (productList == null || productList.isEmpty) ? Text(''):
-                      Column(
-                        children: drawInvoiceItems(),
-                      ),
+                        (productList == null || productList.isEmpty)
+                            ? Text('')
+                            : Column(
+                                children: drawInvoiceItems(),
+                              ),
                         Row(
                           children: [
                             Expanded(
