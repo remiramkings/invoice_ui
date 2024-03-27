@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ui_project/audioFileSelector.dart';
 import 'package:ui_project/service/product_service.dart';
 import 'package:ui_project/service/file_picker_service.dart';
 
@@ -139,6 +140,11 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading:InkWell(child: Icon(Icons.pin),
+            onTap: (){
+              FilePickerService.getInstance().selectFolder();
+            },
+          ),
             title: Row(
           children: [
             Expanded(
@@ -158,6 +164,14 @@ class _HomeState extends State<Home> {
             InkWell(
               child: Icon(Icons.attach_file),
               onTap: selectDocument,
+            ),
+            SizedBox(width: 10),
+            InkWell(
+              child: Icon(Icons.audio_file),
+              onTap: (){
+                  Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => AudioFileSelector()));
+              },
             ),
           ],
         )),

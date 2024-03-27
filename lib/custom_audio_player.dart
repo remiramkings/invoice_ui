@@ -6,8 +6,9 @@ import 'package:ui_project/service/audio_player_service.dart';
 
 class CustomAudioPlayer extends StatefulWidget {
   String filePath;
+  Function(Future<Duration?>?, AudioPlayerService service)? onDurationFuture;
 
-  CustomAudioPlayer({super.key, required this.filePath});
+  CustomAudioPlayer({super.key, required this.filePath, this.onDurationFuture});
 
   @override
   State<StatefulWidget> createState() {
@@ -28,10 +29,15 @@ class CustomAudioPlayerState extends State<CustomAudioPlayer> {
     initializePlayer();
   }
 
-  initializePlayer() {
+  initializePlayer() async {
     progressStream = audioService.getProgressStream();
     filePathFuture = audioService.setFilePath(widget.filePath);
     playerStateStream = audioService.player?.playerStateStream;
+    if(widget.onDurationFuture != null){
+      Duration? d = await filePathFuture;
+      filePathFuture = Future.value(d);
+      widget.onDurationFuture!(Future.value(d), audioService);
+    }
   }
 
   getFileNameFromPath() {
@@ -153,5 +159,6 @@ class CustomAudioPlayerState extends State<CustomAudioPlayer> {
           .player!
           .dispose();
       }
+    super.dispose();
   }
 }
